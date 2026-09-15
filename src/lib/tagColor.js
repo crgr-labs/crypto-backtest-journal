@@ -19,3 +19,4 @@ export function getTagStyles(label) {
   const key = tagColorClass(label)
   return TAG_CLASSES[key] || TAG_CLASSES['tag-1']
 }
+
