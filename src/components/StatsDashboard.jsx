@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { BarChart3Icon } from './Icons'
+import { getTagStyles } from '../lib/tagColor'
 
 function computeStats(entries) {
   const total = entries.length
@@ -71,10 +72,10 @@ export default function StatsDashboard({ entries }) {
 
   if (entries.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-16 text-center backdrop-blur-sm">
-        <BarChart3Icon className="w-12 h-12 text-zinc-600 mb-3" />
-        <h3 className="text-base font-semibold text-zinc-300">No trading data available</h3>
-        <p className="mt-1 text-sm text-zinc-500 max-w-sm">
+      <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-16 text-center shadow-sm">
+        <BarChart3Icon className="w-12 h-12 text-slate-300 mb-3" />
+        <h3 className="text-base font-semibold text-slate-700">No trading data available</h3>
+        <p className="mt-1 text-sm text-slate-500 max-w-sm">
           Log backtested trades to generate real-time performance analytics, win rate metrics, and equity curves.
         </p>
       </div>
@@ -86,51 +87,53 @@ export default function StatsDashboard({ entries }) {
       {/* Top 4 KPI Metric Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Total Trades */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Total Trades</p>
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Trades</p>
           <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-3xl font-bold font-mono text-zinc-100">{overall.total}</span>
+            <span className="text-3xl font-bold font-mono text-slate-900">{overall.total}</span>
             <div className="flex items-center gap-1.5 text-xs font-mono font-medium">
-              <span className="text-emerald-400">{overall.wins}W</span>
-              <span className="text-zinc-600">·</span>
-              <span className="text-rose-400">{overall.losses}L</span>
-              <span className="text-zinc-600">·</span>
-              <span className="text-zinc-400">{overall.breakevens}BE</span>
+              <span className="text-emerald-700 font-semibold">{overall.wins}W</span>
+              <span className="text-slate-300">·</span>
+              <span className="text-rose-700 font-semibold">{overall.losses}L</span>
+              <span className="text-slate-300">·</span>
+              <span className="text-amber-700 font-semibold">{overall.breakevens}BE</span>
             </div>
           </div>
+          <p className="mt-3 text-xs text-slate-400 font-mono">
+            {overall.wins + overall.losses > 0
+              ? `${((overall.wins / (overall.wins + overall.losses || 1)) * 100).toFixed(0)}% decision accuracy`
+              : 'Logged backtest sessions'}
+          </p>
         </div>
 
-        {/* Win Rate */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Win Rate</p>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-3xl font-bold font-mono text-zinc-100">
-              {overall.winRate.toFixed(1)}%
-            </span>
-            <span className="text-xs font-mono text-zinc-500">
-              {overall.wins}/{overall.total} won
-            </span>
+        {/* Win Rate with Donut Ring Chart */}
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Win Rate</p>
+            <div className="mt-2">
+              <span className="text-3xl font-bold font-mono text-slate-900">
+                {overall.winRate.toFixed(1)}%
+              </span>
+            </div>
+            <p className="mt-3 text-xs font-mono text-slate-500">
+              <span className="font-semibold text-emerald-700">{overall.wins}</span> of{' '}
+              <span className="font-semibold text-slate-700">{overall.total}</span> won
+            </p>
           </div>
-          {/* Visual Mini Progress Bar */}
-          <div className="mt-3 h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-emerald-500 transition-all duration-500"
-              style={{ width: `${Math.min(100, Math.max(0, overall.winRate))}%` }}
-            ></div>
-          </div>
+          <WinRateDonut winRate={overall.winRate} />
         </div>
 
         {/* Total Cumulative PnL */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Net Cumulative PnL</p>
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Net Cumulative PnL</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span
               className={`text-3xl font-bold font-mono ${
                 overall.pnlSum > 0
-                  ? 'text-emerald-400'
+                  ? 'text-emerald-600'
                   : overall.pnlSum < 0
-                  ? 'text-rose-400'
-                  : 'text-zinc-100'
+                  ? 'text-rose-600'
+                  : 'text-slate-900'
               }`}
             >
               {overall.pnlSum > 0
@@ -138,50 +141,61 @@ export default function StatsDashboard({ entries }) {
                 : `$${overall.pnlSum.toFixed(2)}`}
             </span>
             <span
-              className={`text-xs font-mono font-medium ${
-                overall.totalR >= 0 ? 'text-emerald-400' : 'text-rose-400'
+              className={`text-xs font-mono font-semibold px-2 py-0.5 rounded ${
+                overall.totalR >= 0
+                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                  : 'bg-rose-50 text-rose-700 border border-rose-200'
               }`}
             >
               {overall.totalR >= 0 ? `+${overall.totalR.toFixed(1)}R` : `${overall.totalR.toFixed(1)}R`}
             </span>
           </div>
+          <p className="mt-3 text-xs text-slate-400 font-mono">
+            Avg trade:{' '}
+            <strong className="text-slate-700">
+              {overall.total ? `$${(overall.pnlSum / overall.total).toFixed(2)}` : '$0.00'}
+            </strong>
+          </p>
         </div>
 
         {/* Avg R & Profit Factor */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
             Expectancy & Factor
           </p>
           <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-3xl font-bold font-mono text-zinc-100">
+            <span className="text-3xl font-bold font-mono text-slate-900">
               {overall.avgR >= 0 ? `+${overall.avgR.toFixed(2)}` : overall.avgR.toFixed(2)}
-              <span className="text-lg font-normal text-zinc-500 ml-0.5">R</span>
+              <span className="text-lg font-normal text-slate-400 ml-0.5">R</span>
             </span>
-            <span className="text-xs font-mono text-zinc-400">
+            <span className="text-xs font-mono text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md">
               PF:{' '}
-              <span className="text-zinc-200 font-semibold">
+              <strong className="text-slate-900 font-semibold">
                 {isFinite(overall.profitFactor) ? overall.profitFactor.toFixed(2) : '∞'}
-              </span>
+              </strong>
             </span>
           </div>
+          <p className="mt-3 text-xs text-slate-400 font-mono">
+            Average reward per unit risk
+          </p>
         </div>
       </div>
 
       {/* Cumulative PnL Equity Curve Graph */}
       {equityPoints.length > 1 && (
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-200">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-900">
                 Cumulative Equity Curve
               </h3>
-              <p className="text-xs text-zinc-500">PnL progression over backtested trades</p>
+              <p className="text-xs text-slate-500">PnL progression over backtested trades</p>
             </div>
             <div className="text-right">
-              <span className="text-xs text-zinc-500 font-mono">Current: </span>
+              <span className="text-xs text-slate-500 font-mono">Net Balance: </span>
               <span
                 className={`text-sm font-mono font-bold ${
-                  overall.pnlSum >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                  overall.pnlSum >= 0 ? 'text-emerald-600' : 'text-rose-600'
                 }`}
               >
                 {overall.pnlSum >= 0 ? `+$${overall.pnlSum.toFixed(2)}` : `$${overall.pnlSum.toFixed(2)}`}
@@ -198,6 +212,46 @@ export default function StatsDashboard({ entries }) {
         <PerformanceTable title="Performance by Strategy" items={byStrategy} type="strategy" />
         <PerformanceTable title="Performance by Asset Pair" items={byPair} type="pair" />
       </div>
+    </div>
+  )
+}
+
+function WinRateDonut({ winRate }) {
+  const size = 68
+  const strokeWidth = 7
+  const radius = (size - strokeWidth) / 2
+  const circumference = 2 * Math.PI * radius
+  const strokeDashoffset = circumference - (Math.min(100, Math.max(0, winRate)) / 100) * circumference
+
+  return (
+    <div className="relative flex items-center justify-center shrink-0">
+      <svg width={size} height={size} className="-rotate-90">
+        {/* Track */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#e2e8f0"
+          strokeWidth={strokeWidth}
+        />
+        {/* Progress Arc */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#4f46e5"
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-700 ease-out"
+        />
+      </svg>
+      <span className="absolute text-[11px] font-bold font-mono text-indigo-700">
+        {winRate.toFixed(0)}%
+      </span>
     </div>
   )
 }
@@ -230,23 +284,17 @@ function EquityCurveChart({ points }) {
   // Area under curve path
   const areaD = `${pathD} L ${getX(points.length - 1)} ${zeroY} L ${getX(0)} ${zeroY} Z`
 
-  const isNetPositive = points[points.length - 1].cumPnL >= 0
-
   return (
     <div className="w-full overflow-hidden">
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full h-44 text-zinc-800"
+        className="w-full h-44 text-slate-200"
         preserveAspectRatio="none"
       >
         <defs>
-          <linearGradient id="equityGradPositive" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
-          </linearGradient>
-          <linearGradient id="equityGradNegative" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#f43f5e" stopOpacity="0.0" />
+          <linearGradient id="equityGradLight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#4f46e5" stopOpacity="0.0" />
           </linearGradient>
         </defs>
 
@@ -256,22 +304,19 @@ function EquityCurveChart({ points }) {
           y1={zeroY}
           x2={width - paddingX}
           y2={zeroY}
-          stroke="#3f3f46"
-          strokeWidth="1"
+          stroke="#cbd5e1"
+          strokeWidth="1.2"
           strokeDasharray="4 4"
         />
 
         {/* Filled Area */}
-        <path
-          d={areaD}
-          fill={isNetPositive ? 'url(#equityGradPositive)' : 'url(#equityGradNegative)'}
-        />
+        <path d={areaD} fill="url(#equityGradLight)" />
 
         {/* Curve Line */}
         <path
           d={pathD}
           fill="none"
-          stroke={isNetPositive ? '#10b981' : '#f43f5e'}
+          stroke="#4f46e5"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -283,12 +328,8 @@ function EquityCurveChart({ points }) {
             key={idx}
             cx={getX(idx)}
             cy={getY(pt.cumPnL)}
-            r="3"
-            className={
-              isNetPositive
-                ? 'fill-emerald-400 stroke-zinc-900 stroke-2'
-                : 'fill-rose-400 stroke-zinc-900 stroke-2'
-            }
+            r="3.5"
+            className="fill-indigo-600 stroke-white stroke-2"
           />
         ))}
       </svg>
@@ -298,35 +339,41 @@ function EquityCurveChart({ points }) {
 
 function PerformanceTable({ title, items, type }) {
   return (
-    <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm space-y-4">
-      <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-200">{title}</h3>
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+      <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-900">{title}</h3>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-zinc-800/60 text-sm">
-          <thead className="text-left text-[11px] uppercase tracking-wider text-zinc-500 font-semibold">
+        <table className="min-w-full divide-y divide-slate-100 text-sm">
+          <thead className="text-left text-[11px] uppercase tracking-wider text-slate-500 font-semibold bg-slate-50/50">
             <tr>
-              <th className="pb-3 pr-4">{type === 'strategy' ? 'Strategy' : 'Pair'}</th>
-              <th className="pb-3 px-3 text-center">Trades</th>
-              <th className="pb-3 px-3">Win Rate</th>
-              <th className="pb-3 px-3 text-right">Avg R</th>
-              <th className="pb-3 pl-3 text-right">PnL</th>
+              <th className="py-2.5 px-3">{type === 'strategy' ? 'Strategy' : 'Pair'}</th>
+              <th className="py-2.5 px-3 text-center">Trades</th>
+              <th className="py-2.5 px-3">Win Rate</th>
+              <th className="py-2.5 px-3 text-right">Avg R</th>
+              <th className="py-2.5 px-3 text-right">PnL</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-800/40 font-mono text-xs">
+          <tbody className="divide-y divide-slate-100 font-mono text-xs">
             {items.map((row) => (
-              <tr key={row.label} className="hover:bg-zinc-800/30 transition-colors">
-                <td className="py-3 pr-4 font-sans font-medium text-zinc-200">
-                  <span className="truncate max-w-[150px] inline-block">{row.label}</span>
+              <tr key={row.label} className="hover:bg-slate-50/70 transition-colors">
+                <td className="py-3 px-3">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold border ${getTagStyles(
+                      row.label
+                    )}`}
+                  >
+                    {row.label}
+                  </span>
                 </td>
-                <td className="py-3 px-3 text-center text-zinc-400 font-mono">
+                <td className="py-3 px-3 text-center text-slate-600 font-mono">
                   {row.total}{' '}
-                  <span className="text-[10px] text-zinc-500">
+                  <span className="text-[10px] text-slate-400">
                     ({row.wins}W/{row.losses}L)
                   </span>
                 </td>
                 <td className="py-3 px-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-10 text-zinc-200">{row.winRate.toFixed(0)}%</span>
-                    <div className="h-1.5 w-16 rounded-full bg-zinc-800 overflow-hidden">
+                    <span className="w-9 text-slate-800 font-semibold">{row.winRate.toFixed(0)}%</span>
+                    <div className="h-1.5 w-16 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
                       <div
                         className="h-full rounded-full bg-emerald-500"
                         style={{ width: `${row.winRate}%` }}
@@ -338,23 +385,23 @@ function PerformanceTable({ title, items, type }) {
                   <span
                     className={
                       row.avgR > 0
-                        ? 'text-emerald-400 font-semibold'
+                        ? 'text-emerald-600 font-semibold'
                         : row.avgR < 0
-                        ? 'text-rose-400 font-semibold'
-                        : 'text-zinc-400'
+                        ? 'text-rose-600 font-semibold'
+                        : 'text-slate-600'
                     }
                   >
                     {row.avgR > 0 ? `+${row.avgR.toFixed(2)}` : row.avgR.toFixed(2)}R
                   </span>
                 </td>
-                <td className="py-3 pl-3 text-right">
+                <td className="py-3 px-3 text-right">
                   <span
                     className={`font-semibold ${
                       row.pnlSum > 0
-                        ? 'text-emerald-400'
+                        ? 'text-emerald-600'
                         : row.pnlSum < 0
-                        ? 'text-rose-400'
-                        : 'text-zinc-400'
+                        ? 'text-rose-600'
+                        : 'text-slate-600'
                     }`}
                   >
                     {row.pnlSum > 0 ? `+$${row.pnlSum.toFixed(2)}` : `$${row.pnlSum.toFixed(2)}`}

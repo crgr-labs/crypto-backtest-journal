@@ -8,23 +8,27 @@ export default function Toast({ toasts, onDismiss }) {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className={`pointer-events-auto flex items-center gap-3 rounded-xl border px-4 py-3 shadow-2xl backdrop-blur-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-3 ${
+          className={`pointer-events-auto flex items-center gap-3 rounded-xl border bg-white px-4 py-3.5 shadow-xl transition-all duration-300 animate-in fade-in slide-in-from-bottom-3 ${
             toast.type === 'error'
-              ? 'border-rose-500/30 bg-rose-950/80 text-rose-200 shadow-rose-950/40'
+              ? 'border-slate-200 border-l-4 border-l-rose-500 text-slate-800'
               : toast.type === 'success'
-              ? 'border-emerald-500/30 bg-emerald-950/80 text-emerald-200 shadow-emerald-950/40'
-              : 'border-zinc-700 bg-zinc-900/90 text-zinc-200 shadow-black/60'
+              ? 'border-slate-200 border-l-4 border-l-emerald-500 text-slate-800'
+              : 'border-slate-200 border-l-4 border-l-indigo-500 text-slate-800'
           }`}
         >
           {toast.type === 'error' ? (
-            <AlertCircleIcon className="w-5 h-5 text-rose-400 shrink-0" />
+            <div className="h-7 w-7 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
+              <AlertCircleIcon className="w-4 h-4 text-rose-600" />
+            </div>
           ) : (
-            <CheckIcon className="w-5 h-5 text-emerald-400 shrink-0" />
+            <div className="h-7 w-7 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+              <CheckIcon className="w-4 h-4 text-emerald-600" />
+            </div>
           )}
-          <p className="text-sm font-medium">{toast.message}</p>
+          <p className="text-sm font-medium text-slate-800">{toast.message}</p>
           <button
             onClick={() => onDismiss(toast.id)}
-            className="ml-2 text-zinc-400 hover:text-zinc-200 p-0.5 rounded transition-colors"
+            className="ml-2 text-slate-400 hover:text-slate-600 p-1 rounded-md hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <XIcon className="w-3.5 h-3.5" />
           </button>
@@ -33,4 +37,3 @@ export default function Toast({ toasts, onDismiss }) {
     </div>
   )
 }
-

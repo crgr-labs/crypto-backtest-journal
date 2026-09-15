@@ -1,35 +1,73 @@
 @import "tailwindcss";
 
+@theme {
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fafc;      /* page background */
+  --color-surface-sunken: #f1f5f9;   /* table header, wells */
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  /* Text */
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-faint: #94a3b8;
+
+  /* Accent (primary actions, active tab, links) */
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-soft: #eef2ff;
+
+  /* Semantic outcome colors */
+  --color-win: #16a34a;
+  --color-win-soft: #dcfce7;
+  --color-loss: #dc2626;
+  --color-loss-soft: #fee2e2;
+  --color-breakeven: #d97706;
+  --color-breakeven-soft: #fef3c7;
+
+  /* Tag palette (cycle through for strategy/pair chips) */
+  --color-tag-1: #6366f1; --color-tag-1-soft: #eef2ff; /* indigo */
+  --color-tag-2: #0891b2; --color-tag-2-soft: #ecfeff; /* cyan */
+  --color-tag-3: #c026d3; --color-tag-3-soft: #fdf4ff; /* fuchsia */
+  --color-tag-4: #ca8a04; --color-tag-4-soft: #fefce8; /* amber */
+  --color-tag-5: #059669; --color-tag-5-soft: #ecfdf5; /* emerald */
+  --color-tag-6: #e11d48; --color-tag-6-soft: #fff1f2; /* rose */
+}
+
 @layer base {
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #09090b;
-    color: #f4f4f5;
+    background-color: var(--color-surface-alt, #f8fafc);
+    color: var(--color-text, #0f172a);
   }
 
   code, kbd, samp, pre {
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* Custom minimal dark scrollbar */
+  /* Custom minimal light scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #09090b;
+    background: #f8fafc;
   }
   ::-webkit-scrollbar-thumb {
-    background: #27272a;
+    background: #cbd5e1;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f46;
+    background: #94a3b8;
   }
 
-  /* Dark mode date input indicator fix */
+  /* Date picker icon styling for light theme */
   input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.8);
     cursor: pointer;
+    opacity: 0.6;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
   }
 }

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import LogEntryForm from './LogEntryForm'
 import { OUTCOMES } from '../constants'
+import { getTagStyles } from '../lib/tagColor'
 import {
   SearchIcon,
   FilterIcon,
@@ -15,9 +16,9 @@ import {
 } from './Icons'
 
 const outcomeStyles = {
-  Win: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
-  Loss: 'border-rose-500/30 bg-rose-500/10 text-rose-400',
-  Breakeven: 'border-zinc-700 bg-zinc-800/60 text-zinc-300',
+  Win: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+  Loss: 'bg-rose-50 text-rose-700 border-rose-200/80',
+  Breakeven: 'bg-amber-50 text-amber-700 border-amber-200/80',
 }
 
 export default function JournalTable({ entries, onUpdate, onDelete }) {
@@ -68,28 +69,28 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
   return (
     <div className="space-y-4">
       {/* Search & Filter Bar */}
-      <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-4 backdrop-blur-sm">
+      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Search Query */}
           <div className="relative flex-1 min-w-[240px]">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4" />
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               type="text"
               placeholder="Search pair, strategy, confluences..."
               value={filters.query}
               onChange={(e) => setFilters((p) => ({ ...p, query: e.target.value }))}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 pl-9 pr-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 pl-9 pr-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           {/* Outcome Filter Chips */}
-          <div className="flex items-center gap-1.5 p-1 rounded-lg bg-zinc-950/80 border border-zinc-800">
+          <div className="flex items-center gap-1.5 p-1 rounded-lg bg-slate-100 border border-slate-200/60">
             <button
               onClick={() => setFilters((p) => ({ ...p, outcome: '' }))}
-              className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
+              className={`px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
                 !filters.outcome
-                  ? 'bg-zinc-800 text-zinc-100 shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'bg-white text-slate-900 shadow-xs font-semibold'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               All ({entries.length})
@@ -98,14 +99,14 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
               <button
                 key={o}
                 onClick={() => setFilters((p) => ({ ...p, outcome: p.outcome === o ? '' : o }))}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
                   filters.outcome === o
                     ? o === 'Win'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs font-semibold'
                       : o === 'Loss'
-                      ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                      : 'bg-zinc-700 text-zinc-100'
-                    : 'text-zinc-400 hover:text-zinc-200'
+                      ? 'bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs font-semibold'
+                      : 'bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs font-semibold'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {o}
@@ -114,19 +115,19 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
           </div>
 
           {/* Date Range */}
-          <div className="flex items-center gap-2 text-xs text-zinc-400">
+          <div className="flex items-center gap-2 text-xs text-slate-500">
             <input
               type="date"
               value={filters.from}
               onChange={(e) => setFilters((p) => ({ ...p, from: e.target.value }))}
-              className="rounded-lg border border-zinc-800 bg-zinc-950/80 px-2.5 py-1.5 text-xs text-zinc-200 focus:border-indigo-500/80 focus:outline-none"
+              className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 focus:border-indigo-500 focus:outline-none"
             />
-            <span className="text-zinc-600">to</span>
+            <span className="text-slate-400">to</span>
             <input
               type="date"
               value={filters.to}
               onChange={(e) => setFilters((p) => ({ ...p, to: e.target.value }))}
-              className="rounded-lg border border-zinc-800 bg-zinc-950/80 px-2.5 py-1.5 text-xs text-zinc-200 focus:border-indigo-500/80 focus:outline-none"
+              className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 focus:border-indigo-500 focus:outline-none"
             />
           </div>
 
@@ -134,9 +135,9 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
           {hasActiveFilters && (
             <button
               onClick={resetFilters}
-              className="inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-200 px-2.5 py-1.5 rounded-lg border border-zinc-800 hover:bg-zinc-800/60 transition-colors"
+              className="inline-flex items-center gap-1 text-xs text-slate-600 hover:text-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
             >
-              <RotateCcwIcon className="w-3.5 h-3.5" />
+              <RotateCcwIcon className="w-3.5 h-3.5 text-slate-500" />
               Reset
             </button>
           )}
@@ -144,11 +145,12 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
       </div>
 
       {/* Main Journal Data Table */}
-      <div className="overflow-hidden rounded-xl border border-zinc-800/80 bg-zinc-900/40 shadow-sm backdrop-blur-sm">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-zinc-800/80 text-sm">
-            <thead className="bg-zinc-950/70 text-left text-xs uppercase tracking-wider text-zinc-400 font-semibold">
+          <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wider text-slate-500 font-semibold">
               <tr>
+                <th className="px-4 py-3.5 w-12 text-center">Chart</th>
                 <th className="px-4 py-3.5">Date</th>
                 <th className="px-4 py-3.5">Pair</th>
                 <th className="px-4 py-3.5">Strategy</th>
@@ -156,10 +158,9 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                 <th className="px-4 py-3.5">Outcome</th>
                 <th className="px-4 py-3.5 text-right">PnL</th>
                 <th className="px-4 py-3.5 text-right">R-Multiple</th>
-                <th className="px-4 py-3.5 text-center">Chart</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-800/60 font-mono">
+            <tbody className="divide-y divide-slate-100">
               {filtered.map((entry) => {
                 const pnlNum = Number(entry.pnl)
                 const rNum = Number(entry.rMultiple)
@@ -174,83 +175,108 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                     }}
                     className={`group cursor-pointer transition-colors duration-150 ${
                       isSelected
-                        ? 'bg-indigo-500/10 hover:bg-indigo-500/15'
-                        : 'hover:bg-zinc-800/40'
+                        ? 'bg-indigo-50/50 hover:bg-indigo-50/70'
+                        : 'hover:bg-slate-50/80'
                     }`}
                   >
-                    <td className="px-4 py-3.5 text-zinc-400 font-mono text-xs whitespace-nowrap">
+                    {/* Thumbnail Column */}
+                    <td className="px-4 py-2.5 text-center whitespace-nowrap">
+                      {entry.chartImageUrl ? (
+                        <img
+                          src={entry.chartImageUrl}
+                          alt="Thumbnail"
+                          className="h-10 w-10 mx-auto rounded-lg object-cover border border-slate-200 shadow-2xs group-hover:border-indigo-300 transition-colors"
+                        />
+                      ) : (
+                        <div className="h-10 w-10 mx-auto rounded-lg border border-dashed border-slate-200 bg-slate-50 flex items-center justify-center text-slate-300">
+                          <ImageIcon className="w-4 h-4" />
+                        </div>
+                      )}
+                    </td>
+
+                    <td className="px-4 py-3.5 text-slate-500 font-mono text-xs whitespace-nowrap">
                       {entry.date}
                     </td>
-                    <td className="px-4 py-3.5 font-sans font-semibold text-zinc-100 whitespace-nowrap">
-                      <span className="inline-flex items-center gap-1.5">
-                        <span className="h-2 w-2 rounded-full bg-indigo-500/80"></span>
+
+                    {/* Pair with Tag Chip */}
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold border ${getTagStyles(
+                          entry.pair
+                        )}`}
+                      >
                         {entry.pair}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 font-sans text-zinc-300 text-xs whitespace-nowrap">
+
+                    {/* Strategy with Tag Chip */}
+                    <td className="px-4 py-3.5 whitespace-nowrap">
                       {entry.strategy ? (
-                        <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-zinc-300 border border-zinc-700/50">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border ${getTagStyles(
+                            entry.strategy
+                          )}`}
+                        >
                           {entry.strategy}
                         </span>
                       ) : (
-                        <span className="text-zinc-600">—</span>
+                        <span className="text-slate-400 text-xs">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3.5 text-zinc-400 text-xs whitespace-nowrap">
+
+                    <td className="px-4 py-3.5 text-slate-600 font-mono text-xs whitespace-nowrap">
                       {entry.timeframe || '—'}
                     </td>
+
                     <td className="px-4 py-3.5 whitespace-nowrap">
                       <span
-                        className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-sans font-medium ${
-                          outcomeStyles[entry.outcome] ?? 'text-zinc-400 border-zinc-700'
+                        className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                          outcomeStyles[entry.outcome] ?? 'text-slate-600 border-slate-200'
                         }`}
                       >
-                        {entry.outcome === 'Win' && <ArrowUpRightIcon className="w-3 h-3 text-emerald-400" />}
-                        {entry.outcome === 'Loss' && <ArrowDownRightIcon className="w-3 h-3 text-rose-400" />}
+                        {entry.outcome === 'Win' && (
+                          <ArrowUpRightIcon className="w-3.5 h-3.5 text-emerald-600" />
+                        )}
+                        {entry.outcome === 'Loss' && (
+                          <ArrowDownRightIcon className="w-3.5 h-3.5 text-rose-600" />
+                        )}
                         {entry.outcome}
                       </span>
                     </td>
+
                     <td className="px-4 py-3.5 text-right font-mono text-xs whitespace-nowrap">
                       {!isNaN(pnlNum) && entry.pnl !== '' ? (
                         <span
                           className={`font-semibold ${
                             pnlNum > 0
-                              ? 'text-emerald-400'
+                              ? 'text-emerald-600'
                               : pnlNum < 0
-                              ? 'text-rose-400'
-                              : 'text-zinc-400'
+                              ? 'text-rose-600'
+                              : 'text-slate-600'
                           }`}
                         >
                           {pnlNum > 0 ? `+${pnlNum.toFixed(2)}` : pnlNum.toFixed(2)}
                         </span>
                       ) : (
-                        <span className="text-zinc-600">—</span>
+                        <span className="text-slate-400">—</span>
                       )}
                     </td>
+
                     <td className="px-4 py-3.5 text-right font-mono text-xs whitespace-nowrap">
                       {!isNaN(rNum) && entry.rMultiple !== '' ? (
                         <span
                           className={`font-medium ${
                             rNum > 0
-                              ? 'text-emerald-400'
+                              ? 'text-emerald-600 font-semibold'
                               : rNum < 0
-                              ? 'text-rose-400'
-                              : 'text-zinc-400'
+                              ? 'text-rose-600 font-semibold'
+                              : 'text-slate-600'
                           }`}
                         >
                           {rNum > 0 ? `+${rNum.toFixed(2)}R` : `${rNum.toFixed(2)}R`}
                         </span>
                       ) : (
-                        <span className="text-zinc-600">—</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3.5 text-center whitespace-nowrap">
-                      {entry.chartImageUrl ? (
-                        <span className="inline-flex items-center justify-center p-1 rounded bg-indigo-500/10 text-indigo-400">
-                          <ImageIcon className="w-3.5 h-3.5" />
-                        </span>
-                      ) : (
-                        <span className="text-zinc-700">—</span>
+                        <span className="text-slate-400">—</span>
                       )}
                     </td>
                   </tr>
@@ -259,14 +285,14 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
 
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-4 py-12 text-center text-zinc-500">
+                  <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <FilterIcon className="w-6 h-6 text-zinc-600" />
-                      <p className="text-sm font-medium text-zinc-400">No trades match your search filters</p>
+                      <FilterIcon className="w-6 h-6 text-slate-300" />
+                      <p className="text-sm font-medium text-slate-600">No trades match your search filters</p>
                       {hasActiveFilters && (
                         <button
                           onClick={resetFilters}
-                          className="mt-1 text-xs text-indigo-400 hover:text-indigo-300 underline"
+                          className="mt-1 text-xs text-indigo-600 hover:text-indigo-800 underline cursor-pointer"
                         >
                           Clear all filters
                         </button>
@@ -282,36 +308,36 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
 
       {/* Slide-over Trade Inspection Drawer / Modal */}
       {selectedTrade && (
-        <div className="fixed inset-0 z-40 flex justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-2xl h-full bg-zinc-900 border-l border-zinc-800 shadow-2xl overflow-y-auto p-6 space-y-6 flex flex-col justify-between animate-in slide-in-from-right duration-200">
+        <div className="fixed inset-0 z-40 flex justify-end bg-slate-900/40 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-2xl h-full bg-white border-l border-slate-200 shadow-2xl overflow-y-auto p-6 space-y-6 flex flex-col justify-between animate-in slide-in-from-right duration-200">
             {/* Drawer Header */}
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200">
                 <div className="flex items-center gap-3">
                   <span
                     className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                      outcomeStyles[selectedTrade.outcome] ?? 'text-zinc-400'
+                      outcomeStyles[selectedTrade.outcome] ?? 'text-slate-600'
                     }`}
                   >
                     {selectedTrade.outcome}
                   </span>
                   <div>
-                    <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                    <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                       {selectedTrade.pair}
                       {selectedTrade.timeframe && (
-                        <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded">
+                        <span className="text-xs font-mono font-normal text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
                           {selectedTrade.timeframe}
                         </span>
                       )}
                     </h2>
-                    <p className="text-xs text-zinc-500 font-mono">{selectedTrade.date}</p>
+                    <p className="text-xs text-slate-500 font-mono">{selectedTrade.date}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setSelectedTrade(null)}
-                    className="p-2 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer"
+                    className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
                   >
                     <XIcon className="w-5 h-5" />
                   </button>
@@ -340,7 +366,7 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                           ? 'emerald'
                           : Number(selectedTrade.pnl) < 0
                           ? 'rose'
-                          : 'zinc'
+                          : 'slate'
                       }
                     />
                     <MetricBox
@@ -351,7 +377,7 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                           ? 'emerald'
                           : Number(selectedTrade.rMultiple) < 0
                           ? 'rose'
-                          : 'zinc'
+                          : 'slate'
                       }
                     />
                     <MetricBox label="Strategy" value={selectedTrade.strategy || '—'} />
@@ -359,8 +385,8 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                   </div>
 
                   {/* Level Details */}
-                  <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-3">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Price Levels
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-sm">
@@ -372,44 +398,44 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                   </div>
 
                   {/* Setup & Confluences */}
-                  <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-3">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Technical Confluences
                     </h3>
                     <div className="space-y-2 text-sm">
                       <div>
-                        <span className="text-xs text-zinc-500 block">Indicators</span>
-                        <p className="text-zinc-300">{selectedTrade.indicators || 'None specified'}</p>
+                        <span className="text-xs text-slate-500 block">Indicators</span>
+                        <p className="text-slate-800 font-medium">{selectedTrade.indicators || 'None specified'}</p>
                       </div>
                       <div>
-                        <span className="text-xs text-zinc-500 block">Entry Trigger</span>
-                        <p className="text-zinc-300">{selectedTrade.entryTrigger || 'None specified'}</p>
+                        <span className="text-xs text-slate-500 block">Entry Trigger</span>
+                        <p className="text-slate-800 font-medium">{selectedTrade.entryTrigger || 'None specified'}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Trade Notes */}
                   {selectedTrade.notes && (
-                    <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-2">
-                      <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-2">
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Notes & Observations
                       </h3>
-                      <p className="text-sm text-zinc-300 whitespace-pre-wrap">{selectedTrade.notes}</p>
+                      <p className="text-sm text-slate-700 whitespace-pre-wrap">{selectedTrade.notes}</p>
                     </div>
                   )}
 
                   {/* Chart Snapshot View */}
                   {selectedTrade.chartImageUrl && (
-                    <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-3">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                        <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                           Chart Snapshot
                         </h3>
                         <a
                           href={selectedTrade.chartImageUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300"
+                          className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 font-medium"
                         >
                           <span>Full resolution</span>
                           <ExternalLinkIcon className="w-3.5 h-3.5" />
@@ -419,7 +445,7 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
                         <img
                           src={selectedTrade.chartImageUrl}
                           alt="Chart snapshot"
-                          className="w-full max-h-80 object-contain rounded-lg border border-zinc-800/80 bg-zinc-950"
+                          className="w-full max-h-80 object-contain rounded-lg border border-slate-200 bg-white shadow-xs"
                         />
                       </a>
                     </div>
@@ -430,10 +456,10 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
 
             {/* Bottom Actions */}
             {!isEditing && (
-              <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
+              <div className="flex items-center justify-between pt-4 border-t border-slate-200">
                 <button
                   onClick={() => setDeletingId(selectedTrade.id)}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-rose-900/40 bg-rose-950/30 px-3.5 py-2 text-xs font-medium text-rose-300 hover:bg-rose-900/50 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3.5 py-2 text-xs font-medium text-rose-700 hover:bg-rose-100 transition-colors cursor-pointer"
                 >
                   <Trash2Icon className="w-4 h-4" />
                   Delete Trade
@@ -441,7 +467,7 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
 
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-500 shadow-md shadow-indigo-600/20 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 shadow-sm transition-all cursor-pointer"
                 >
                   <Edit3Icon className="w-4 h-4" />
                   Edit Trade
@@ -454,22 +480,22 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
 
       {/* Delete Confirmation Dialog */}
       {deletingId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-sm rounded-xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-semibold text-zinc-100">Delete Trade Entry</h3>
-            <p className="text-sm text-zinc-400">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs animate-in fade-in">
+          <div className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-semibold text-slate-900">Delete Trade Entry</h3>
+            <p className="text-sm text-slate-600">
               Are you sure you want to permanently delete this trade entry? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3 pt-2">
               <button
                 onClick={() => setDeletingId(null)}
-                className="rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-2 text-xs font-medium text-zinc-300 hover:bg-zinc-800 transition-colors"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => confirmDelete(deletingId)}
-                className="rounded-lg bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-500 transition-colors"
+                className="rounded-lg bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-700 transition-colors cursor-pointer"
               >
                 Delete Permanently
               </button>
@@ -482,26 +508,26 @@ export default function JournalTable({ entries, onUpdate, onDelete }) {
 }
 
 function MetricBox({ label, value, highlight }) {
-  let textClass = 'text-zinc-100'
-  if (highlight === 'emerald') textClass = 'text-emerald-400 font-bold'
-  if (highlight === 'rose') textClass = 'text-rose-400 font-bold'
+  let textClass = 'text-slate-900'
+  if (highlight === 'emerald') textClass = 'text-emerald-600 font-bold'
+  if (highlight === 'rose') textClass = 'text-rose-600 font-bold'
 
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-950/80 p-3">
-      <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">{label}</p>
+    <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xs">
+      <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{label}</p>
       <p className={`mt-0.5 text-sm font-mono truncate ${textClass}`}>{value}</p>
     </div>
   )
 }
 
 function LevelItem({ label, value, color }) {
-  let valColor = 'text-zinc-200'
-  if (color === 'rose') valColor = 'text-rose-400'
-  if (color === 'emerald') valColor = 'text-emerald-400'
+  let valColor = 'text-slate-800'
+  if (color === 'rose') valColor = 'text-rose-600'
+  if (color === 'emerald') valColor = 'text-emerald-600'
 
   return (
     <div>
-      <span className="text-[11px] text-zinc-500 block uppercase tracking-wider">{label}</span>
+      <span className="text-[11px] text-slate-500 block uppercase tracking-wider">{label}</span>
       <span className={`font-semibold ${valColor}`}>{value ? value : '—'}</span>
     </div>
   )

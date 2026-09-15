@@ -127,36 +127,36 @@ export default function LogEntryForm({
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-6">
       {/* 1. Trade Meta & Context */}
-      <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/10 text-xs font-semibold text-indigo-400">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-600">
               1
             </span>
-            <h2 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">
+            <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
               Trade Information
             </h2>
           </div>
-          <span className="text-xs text-zinc-500">Asset, timeframe & classification</span>
+          <span className="text-xs text-slate-400">Asset, timeframe & classification</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">
-              Date <span className="text-rose-400">*</span>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+              Date <span className="text-rose-500">*</span>
             </label>
             <input
               type="date"
               required
               value={entry.date}
               onChange={(e) => handleChange('date', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">
-              Pair / Ticker <span className="text-rose-400">*</span>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+              Pair / Ticker <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
@@ -164,49 +164,49 @@ export default function LogEntryForm({
               placeholder="e.g. BTC/USDT, ETH/USD"
               value={entry.pair}
               onChange={(e) => handleChange('pair', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Timeframe</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">Timeframe</label>
             <input
               type="text"
               placeholder="e.g. 15m, 1h, 4h, 1D"
               value={entry.timeframe}
               onChange={(e) => handleChange('timeframe', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Strategy / Model</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">Strategy / Model</label>
             <input
               type="text"
               placeholder="e.g. Breakout Retest, FVG"
               value={entry.strategy}
               onChange={(e) => handleChange('strategy', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
         </div>
       </div>
 
       {/* 2. Price Levels & Execution */}
-      <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/10 text-xs font-semibold text-indigo-400">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-600">
               2
             </span>
-            <h2 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">
+            <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
               Execution Levels
             </h2>
           </div>
           <button
             type="button"
             onClick={autoCalculateMetrics}
-            className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 font-medium transition-colors cursor-pointer"
             title="Compute R-Multiple based on Entry, Exit, and Stop Loss"
           >
             <CalculatorIcon className="w-3.5 h-3.5" />
@@ -216,63 +216,63 @@ export default function LogEntryForm({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Entry Price</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">Entry Price</label>
             <input
               type="number"
               step="any"
               placeholder="0.00"
               value={entry.entryPrice}
               onChange={(e) => handleChange('entryPrice', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Exit Price</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">Exit Price</label>
             <input
               type="number"
               step="any"
               placeholder="0.00"
               value={entry.exitPrice}
               onChange={(e) => handleChange('exitPrice', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-rose-400/90 mb-1.5">Stop Loss</label>
+            <label className="block text-xs font-semibold text-rose-700 mb-1.5">Stop Loss</label>
             <input
               type="number"
               step="any"
               placeholder="0.00"
               value={entry.stopLoss}
               onChange={(e) => handleChange('stopLoss', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-rose-500/60 focus:ring-1 focus:ring-rose-500/30 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-rose-200 bg-rose-50/30 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-rose-500 focus:bg-white focus:ring-1 focus:ring-rose-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-emerald-400/90 mb-1.5">Take Profit</label>
+            <label className="block text-xs font-semibold text-emerald-700 mb-1.5">Take Profit</label>
             <input
               type="number"
               step="any"
               placeholder="0.00"
               value={entry.takeProfit}
               onChange={(e) => handleChange('takeProfit', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-emerald-200 bg-emerald-50/30 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all"
             />
           </div>
         </div>
       </div>
 
       {/* 3. Setup, Triggers & Indicators */}
-      <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/10 text-xs font-semibold text-indigo-400">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-600">
               3
             </span>
-            <h2 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">
+            <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
               Technical Setup & Confluences
             </h2>
           </div>
@@ -280,37 +280,37 @@ export default function LogEntryForm({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Indicators Used</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">Indicators Used</label>
             <input
               type="text"
               placeholder="e.g. 200 EMA, RSI Divergence, Volume Spike"
               value={entry.indicators}
               onChange={(e) => handleChange('indicators', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Entry Trigger / Confluence</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">Entry Trigger / Confluence</label>
             <input
               type="text"
               placeholder="e.g. Liquidity sweep + 5m change of character"
               value={entry.entryTrigger}
               onChange={(e) => handleChange('entryTrigger', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
             />
           </div>
         </div>
       </div>
 
       {/* 4. Outcome & Performance */}
-      <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/10 text-xs font-semibold text-indigo-400">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-600">
               4
             </span>
-            <h2 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">
+            <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
               Trade Outcome
             </h2>
           </div>
@@ -318,23 +318,23 @@ export default function LogEntryForm({
 
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-2">Outcome Status</label>
+            <label className="block text-xs font-semibold text-slate-600 mb-2">Outcome Status</label>
             <div className="grid grid-cols-3 gap-2.5 max-w-md">
               {OUTCOMES.map((o) => {
                 const isSelected = entry.outcome === o
                 let activeColor = ''
                 if (o === 'Win') {
                   activeColor = isSelected
-                    ? 'border-emerald-500/50 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/50'
-                    : 'hover:border-zinc-700 text-zinc-400'
+                    ? 'border-emerald-300 bg-emerald-50 text-emerald-800 ring-1 ring-emerald-400 font-semibold shadow-xs'
+                    : 'hover:border-slate-300 text-slate-600 bg-white border-slate-200'
                 } else if (o === 'Loss') {
                   activeColor = isSelected
-                    ? 'border-rose-500/50 bg-rose-500/15 text-rose-300 ring-1 ring-rose-500/50'
-                    : 'hover:border-zinc-700 text-zinc-400'
+                    ? 'border-rose-300 bg-rose-50 text-rose-800 ring-1 ring-rose-400 font-semibold shadow-xs'
+                    : 'hover:border-slate-300 text-slate-600 bg-white border-slate-200'
                 } else {
                   activeColor = isSelected
-                    ? 'border-zinc-500/50 bg-zinc-500/15 text-zinc-200 ring-1 ring-zinc-500/50'
-                    : 'hover:border-zinc-700 text-zinc-400'
+                    ? 'border-amber-300 bg-amber-50 text-amber-800 ring-1 ring-amber-400 font-semibold shadow-xs'
+                    : 'hover:border-slate-300 text-slate-600 bg-white border-slate-200'
                 }
 
                 return (
@@ -342,8 +342,8 @@ export default function LogEntryForm({
                     key={o}
                     type="button"
                     onClick={() => handleChange('outcome', o)}
-                    className={`flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all ${
-                      isSelected ? activeColor : 'border-zinc-800 bg-zinc-950/60'
+                    className={`flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg border text-sm transition-all cursor-pointer ${
+                      isSelected ? activeColor : 'border-slate-200 bg-white'
                     }`}
                   >
                     {isSelected && <CheckIcon className="w-3.5 h-3.5" />}
@@ -356,32 +356,32 @@ export default function LogEntryForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Net PnL ($ / USDT)</label>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Net PnL ($ / USDT)</label>
               <input
                 type="number"
                 step="any"
                 placeholder="e.g. 250 or -100"
                 value={entry.pnl}
                 onChange={(e) => handleChange('pnl', e.target.value)}
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1.5">R-Multiple Realized</label>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">R-Multiple Realized</label>
               <input
                 type="number"
                 step="any"
                 placeholder="e.g. 2.5 or -1.0"
                 value={entry.rMultiple}
                 onChange={(e) => handleChange('rMultiple', e.target.value)}
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
               Notes & Lessons Learned
             </label>
             <textarea
@@ -389,28 +389,28 @@ export default function LogEntryForm({
               placeholder="What went well? Did you adhere strictly to your rules? Any emotional triggers?"
               value={entry.notes}
               onChange={(e) => handleChange('notes', e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/40 focus:outline-none transition-all resize-y"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all resize-y"
             />
           </div>
         </div>
       </div>
 
       {/* 5. Chart Snapshot Dropzone & Clipboard Paste */}
-      <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/10 text-xs font-semibold text-indigo-400">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-600">
               5
             </span>
-            <h2 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">
+            <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
               Chart Snapshot
             </h2>
           </div>
-          <span className="text-xs text-zinc-500">Supports drag & drop or Ctrl+V paste</span>
+          <span className="text-xs text-slate-400">Supports drag & drop or Ctrl+V paste</span>
         </div>
 
         {imagePreview ? (
-          <div className="relative rounded-lg border border-zinc-800 bg-zinc-950/80 p-2 group max-w-xl">
+          <div className="relative rounded-lg border border-slate-200 bg-slate-50 p-2 group max-w-xl">
             <img
               src={imagePreview}
               alt="Chart preview"
@@ -419,7 +419,7 @@ export default function LogEntryForm({
             <button
               type="button"
               onClick={removeImage}
-              className="absolute top-4 right-4 flex items-center gap-1 rounded-md bg-zinc-900/90 border border-zinc-700/80 px-2.5 py-1 text-xs text-rose-300 hover:bg-rose-950/80 transition-colors shadow-lg"
+              className="absolute top-4 right-4 flex items-center gap-1 rounded-md bg-white border border-slate-200 px-2.5 py-1 text-xs font-medium text-rose-700 hover:bg-rose-50 transition-colors shadow-sm cursor-pointer"
             >
               <XIcon className="w-3.5 h-3.5" />
               Remove
@@ -441,15 +441,15 @@ export default function LogEntryForm({
             onClick={() => fileInputRef.current?.click()}
             className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center cursor-pointer transition-all ${
               isDragging
-                ? 'border-indigo-500 bg-indigo-500/10 text-indigo-300'
-                : 'border-zinc-800 hover:border-zinc-700 bg-zinc-950/40 text-zinc-400 hover:bg-zinc-950/80'
+                ? 'border-indigo-500 bg-indigo-50/50 text-indigo-700'
+                : 'border-slate-200 hover:border-slate-300 bg-slate-50/60 text-slate-500 hover:bg-slate-50'
             }`}
           >
-            <UploadCloudIcon className="w-8 h-8 text-zinc-500 mb-2" />
-            <p className="text-sm font-medium text-zinc-300">
-              Click to browse, drag & drop, or <span className="text-indigo-400">Ctrl+V</span> to paste
+            <UploadCloudIcon className="w-8 h-8 text-slate-400 mb-2" />
+            <p className="text-sm font-medium text-slate-700">
+              Click to browse, drag & drop, or <span className="text-indigo-600 font-semibold">Ctrl+V</span> to paste
             </p>
-            <p className="text-xs text-zinc-500 mt-1">PNG, JPG, WebP screenshot files</p>
+            <p className="text-xs text-slate-400 mt-1">PNG, JPG, WebP screenshot files</p>
             <input
               ref={fileInputRef}
               type="file"
@@ -462,7 +462,7 @@ export default function LogEntryForm({
       </div>
 
       {error && (
-        <div className="rounded-lg border border-rose-500/30 bg-rose-950/40 px-4 py-3 text-sm text-rose-300">
+        <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
           {error}
         </div>
       )}
@@ -473,7 +473,7 @@ export default function LogEntryForm({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-zinc-800 bg-zinc-900 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100 transition-colors cursor-pointer"
+            className="rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
           >
             Cancel
           </button>
@@ -481,7 +481,7 @@ export default function LogEntryForm({
         <button
           type="submit"
           disabled={saving}
-          className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/20 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 disabled:opacity-50 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 disabled:opacity-50 transition-all cursor-pointer"
         >
           {saving ? (
             <>
