@@ -15,6 +15,7 @@ async function post(body) {
     // text/plain avoids a CORS preflight against the Apps Script web app
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(body),
+    redirect: 'follow',
   })
   const data = await res.json()
   if (!data.ok) throw new Error(data.error || 'Request failed')
@@ -23,7 +24,9 @@ async function post(body) {
 
 export async function listEntries() {
   checkApiUrl()
-  const res = await fetch(`${API_URL}?action=list`)
+  const res = await fetch(`${API_URL}?action=list`, {
+    redirect: 'follow',
+  })
   const data = await res.json()
   if (!data.ok) throw new Error(data.error || 'Request failed')
   return data.entries
