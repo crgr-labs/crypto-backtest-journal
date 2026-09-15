@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import LogEntryForm from './components/LogEntryForm'
+import QuickLogTable from './components/QuickLogTable'
 import JournalTable from './components/JournalTable'
 import StatsDashboard from './components/StatsDashboard'
 import Toast from './components/Toast'
@@ -238,7 +238,7 @@ export default function App() {
           <SkeletonLoader />
         ) : (
           <div className="animate-in fade-in duration-200">
-            {tab === 'Log Entry' && <LogEntryForm onSubmit={handleCreate} />}
+            {tab === 'Log Entry' && <QuickLogTable onSubmit={handleCreate} />}
             {tab === 'Journal' && (
               <JournalTable entries={entries} onUpdate={handleUpdate} onDelete={handleDelete} />
             )}
